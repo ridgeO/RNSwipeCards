@@ -32,8 +32,10 @@ export default class SwipeCards extends Component {
       ]),
 
       onPanResponderRelease: (e, {vx, vy}) => {
-        // Flatten the offset to avoid erratic behavior
-        this.state.pan.flattenOffset();
+        // Return icon back to center
+        Animated.spring(this.state.pan, {
+          toValue: 0
+        }).start();
       }
     });
   }
