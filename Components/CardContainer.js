@@ -33,7 +33,7 @@ export default class SwipeCards extends Component {
 
       onPanResponderRelease: (e, {vx, vy}) => {
         console.log(`panx: ${this.state.pan.x._value} pany: ${this.state.pan.y._value}`)
-        if (this.state.pan.x._value < 235 && this.state.pan.x._value > -235) {
+        if (this.state.pan.x._value < 310 && this.state.pan.x._value > -310 && this.state.pan.y._value > -450 && this.state.pan.y._value < 450) {
           // Return icon back to center
           Animated.spring(this.state.pan, {
             toValue: 0
@@ -67,8 +67,9 @@ export default class SwipeCards extends Component {
 
 const styles = StyleSheet.create({
   card: {
-    height: 200,
-    width: 200,
+    height: 500,
+    width: 350,
+    borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#1E90FF',
