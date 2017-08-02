@@ -5,6 +5,7 @@ import {
   PanResponder,
   Animated
 } from 'react-native';
+import clamp from 'clamp';
 import CardContainer from './CardContainer.js';
 
 export default class SwipeCards extends Component {
@@ -33,11 +34,31 @@ export default class SwipeCards extends Component {
 
       onPanResponderRelease: (e, {vx, vy}) => {
         console.log(`panx: ${this.state.pan.x._value} pany: ${this.state.pan.y._value}`)
-        if (this.state.pan.x._value < 310 && this.state.pan.x._value > -310 && this.state.pan.y._value > -450 && this.state.pan.y._value < 450) {
-          // Return icon back to center
+
+        if (this.state.pan.x._value < -250) {
+          Animated.decay(this.state.pan, {
+            velocity: {x: -3, y: vy},
+            deceleration: 0.98
+          }).start()
+        } else if (this.state.pan.x._value > 250) {
+          Animated.decay(this.state.pan, {
+            velocity: {x: 3, y: vy},
+            deceleration: 0.98
+          }).start()
+        } else if (this.state.pan.y._value < -400) {
+          Animated.decay(this.state.pan, {
+            velocity: {x: vx, y: -4},
+            deceleration: 0.98
+          }).start()
+        } else if (this.state.pan.y._value > 400) {
+          Animated.decay(this.state.pan, {
+            velocity: {x: vx, y: 4},
+            deceleration: 0.98
+          }).start()
+        } else {
           Animated.spring(this.state.pan, {
-            toValue: 0
-          }).start();
+            toValue: 0,
+          }).start()
         }
       }
     });
@@ -49,7 +70,7 @@ export default class SwipeCards extends Component {
   }
 
   getStyle() {
-    
+
     // Destructure the value of pan from the state
     let { pan } = this.state;
 
