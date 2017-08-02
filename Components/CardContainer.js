@@ -11,7 +11,7 @@ export default class SwipeCards extends Component {
 
   constructor(props) {
     super(props);
-    this.state {
+    this.state = {
       pan: new Animated.ValueXY()
     };
   }
