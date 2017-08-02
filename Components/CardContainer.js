@@ -43,22 +43,30 @@ export default class SwipeCards extends Component {
     });
   }
 
-  render() {
+  componentWillUnmount() {
+    this.state.pan.x.removeAllListeners();
+    this.state.pan.y.removeAllListeners();
+  }
 
+  getStyle() {
+    
     // Destructure the value of pan from the state
     let { pan } = this.state;
 
-    // Calculate the x and y transform from the pan value
-    let [translateX, translateY] = [pan.x, pan.y];
+    return [
+      styles.cardContainer,
+      {
+        transform: [{ translateX: pan.x }, { translateY: pan.y }, { rotate: this.state.pan.x.interpolate({inputRange: [-200, 0, 200], outputRange: ["-30deg", "0deg", "30deg"]}) }]
+      },
+      {
+        opacity: this.state.pan.x.interpolate({inputRange: [-200, 0, 200], outputRange: [0.5, 1, 0.5]})
+      }
+    ];
+  }
 
-    // Calculate rotation based on pan values
-    let rotate = this.state.pan.x.interpolate({inputRange: [-200, 0, 200], outputRange: ["-30deg", "0deg", "30deg"]})
-
-    // Calculate the transform property and set it as a value for style
-    let cardStyle = {transform: [{translateX}, {translateY}, {rotate}]};
-
+  render() {
     return (
-      <Animated.View style={cardStyle} {...this._panResponder.panHandlers}>
+      <Animated.View style={this.getStyle()} {...this._panResponder.panHandlers}>
         <View style={styles.card}/>
       </Animated.View>
     );
