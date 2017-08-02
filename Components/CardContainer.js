@@ -21,9 +21,9 @@ export default class SwipeCards extends Component {
       onMoveShouldSetResponderCapture: () => true,
       onMoveShouldSetPanResponderCapture: () => true,
 
-      // Set initial values to 0 (center of the screen)
+      // Set initial values to current state
       onPanResponderGrant: (e, gestureState) => {
-        this.state.pan.setValue({x: 0, y: 0});
+        this.state.pan.setOffset({x: this.state.pan.x._value, y: this.state.pan.y._value});
       },
 
       // Set Delta values to the states pan position when object is dragged/panned
@@ -32,6 +32,8 @@ export default class SwipeCards extends Component {
       ]),
 
       onPanResponderRelease: (e, {vx, vy}) => {
+        // Flatten the offset to avoid erratic behavior
+        this.state.pan.flattenOffset();
       }
     });
   }
