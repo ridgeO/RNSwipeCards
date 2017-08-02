@@ -48,8 +48,11 @@ export default class SwipeCards extends Component {
     // Calculate the x and y transform from the pan value
     let [translateX, translateY] = [pan.x, pan.y];
 
+    // Calculate rotation based on pan values
+    let rotate = this.state.pan.x.interpolate({inputRange: [-200, 0, 200], outputRange: ["-30deg", "0deg", "30deg"]})
+
     // Calculate the transform property and set it as a value for style
-    let cardStyle = {transform: [{translateX}, {translateY}]};
+    let cardStyle = {transform: [{translateX}, {translateY}, {rotate}]};
 
     return (
       <Animated.View style={cardStyle} {...this._panResponder.panHandlers}>
