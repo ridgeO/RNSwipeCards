@@ -3,9 +3,10 @@ import {
   StyleSheet,
   View,
   PanResponder,
-  Animated
+  Animated,
+  Text,
+  Image
 } from 'react-native';
-import clamp from 'clamp';
 import CardContainer from './CardContainer.js';
 
 export default class SwipeCards extends Component {
@@ -35,24 +36,24 @@ export default class SwipeCards extends Component {
       onPanResponderRelease: (e, {vx, vy}) => {
         console.log(`panx: ${this.state.pan.x._value} pany: ${this.state.pan.y._value}`)
 
-        if (this.state.pan.x._value < -250) {
+        if (this.state.pan.x._value < -150) {
           Animated.decay(this.state.pan, {
-            velocity: {x: -3, y: vy},
+            velocity: {x: -8, y: vy},
             deceleration: 0.98
           }).start()
-        } else if (this.state.pan.x._value > 250) {
+        } else if (this.state.pan.x._value > 150) {
           Animated.decay(this.state.pan, {
-            velocity: {x: 3, y: vy},
+            velocity: {x: 8, y: vy},
             deceleration: 0.98
           }).start()
-        } else if (this.state.pan.y._value < -400) {
+        } else if (this.state.pan.y._value < -150) {
           Animated.decay(this.state.pan, {
-            velocity: {x: vx, y: -4},
+            velocity: {x: vx, y: -9},
             deceleration: 0.98
           }).start()
-        } else if (this.state.pan.y._value > 400) {
+        } else if (this.state.pan.y._value > 150) {
           Animated.decay(this.state.pan, {
-            velocity: {x: vx, y: 4},
+            velocity: {x: vx, y: 9},
             deceleration: 0.98
           }).start()
         } else {
@@ -88,7 +89,13 @@ export default class SwipeCards extends Component {
   render() {
     return (
       <Animated.View style={this.getStyle()} {...this._panResponder.panHandlers}>
-        <View style={styles.card}/>
+        <View style={styles.card}>
+          <Image source={{uri: "https://s-media-cache-ak0.pinimg.com/originals/0e/ca/cf/0ecacf1245c5e8c723414ea1a19407cf.jpg"}} style={styles.image}/>
+          <View style={{margin: 20}}>
+            <Text style={styles.titleText}>Name, Age</Text>
+            <Text style={styles.description}>Description</Text>
+          </View>
+        </View>
       </Animated.View>
     );
   }
@@ -98,9 +105,25 @@ const styles = StyleSheet.create({
   card: {
     height: 500,
     width: 350,
+    borderWidth: 1,
+    borderColor: 'lightgrey',
     borderRadius: 8,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#1E90FF',
+    backgroundColor: '#FFF',
+    overflow: 'hidden'
+  },
+  image: {
+    flex: 1,
+  },
+  titleText: {
+    textAlign: 'left',
+    fontSize: 20,
+    backgroundColor: 'transparent'
+  },
+  description: {
+    textAlign: 'left',
+    fontSize: 15,
+    color: 'grey',
+    backgroundColor: 'transparent'
   },
 });
