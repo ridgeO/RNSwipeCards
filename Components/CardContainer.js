@@ -9,13 +9,27 @@ import {
 } from 'react-native';
 import CardContainer from './CardContainer.js';
 
+var cards = [1,2,3,4,5,6,7,8,9,10]
+
 export default class SwipeCards extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
+      cards: cards,
+      mainCard: cards[0],
+      secondaryCard: cards[1],
+      cardIndex: 0,
       pan: new Animated.ValueXY()
     };
+  }
+
+  nextCards() {
+    var cards = this.state.cards;
+    var firstCard = cards.pop();
+    var secondCard = cards.pop();
+    this.setState({mainCard: firstCard}),
+    this.setState({secondaryCard: secondCard})
   }
 
   componentWillMount() {
@@ -41,11 +55,13 @@ export default class SwipeCards extends Component {
             velocity: {x: -8, y: vy},
             deceleration: 0.98
           }).start()
+          this.nextCards()
         } else if (this.state.pan.x._value > 150) {
           Animated.decay(this.state.pan, {
             velocity: {x: 8, y: vy},
             deceleration: 0.98
           }).start()
+          this.nextCards()
         } else if (this.state.pan.y._value < -150) {
           Animated.decay(this.state.pan, {
             velocity: {x: vx, y: -9},
@@ -93,7 +109,7 @@ export default class SwipeCards extends Component {
           <Image source={{uri: "https://s-media-cache-ak0.pinimg.com/originals/0e/ca/cf/0ecacf1245c5e8c723414ea1a19407cf.jpg"}} style={styles.image}/>
           <View style={{margin: 20}}>
             <Text style={styles.titleText}>Name, Age</Text>
-            <Text style={styles.description}>Description</Text>
+            <Text style={styles.description}>{this.state.mainCard}</Text>
           </View>
         </View>
       </Animated.View>
