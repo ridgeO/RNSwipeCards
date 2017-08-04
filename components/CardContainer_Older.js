@@ -6,7 +6,6 @@ import {
   Animated,
   Text,
   Image,
-  FlatList
 } from 'react-native';
 import CardContainer from './CardContainer.js';
 
@@ -17,7 +16,7 @@ export default class SwipeCards extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      onScreenCards: [{id: 5, text:'this is 5', main: true}, {id: 6, text:'this is 6', main: false}],
+      onScreenCards: [{id: 5, text:'this is 5'}, {id: 6, text:'this is 6'}],
       cardIndex: 0,
       pan: new Animated.ValueXY()
     };
@@ -30,37 +29,9 @@ export default class SwipeCards extends Component {
     var secondCard = CARDS.pop();
     console.log(secondCard)
     this.setState({
-      onScreenCards: [{id: 1, text:'this is 1', main: true}, {id: 2, text:'this is 2'}]
+      onScreenCards: [firstCard, secondCard]
     });
     console.log(this.state.onScreenCards)
-  }
-
-  renderCards(item) {
-    if (item.main == true){
-      return(
-        <Animated.View style={this.getStyleMainCard()} {...this._panResponder.panHandlers}>
-          <View style={styles.card}>
-            <Image source={{uri: "https://s-media-cache-ak0.pinimg.com/originals/0e/ca/cf/0ecacf1245c5e8c723414ea1a19407cf.jpg"}} style={styles.image}/>
-            <View style={{margin: 20}}>
-              <Text style={styles.titleText}>Name, Age</Text>
-              <Text style={styles.description}>{item.id}</Text>
-            </View>
-          </View>
-        </Animated.View>
-      )
-    } else {
-      return(
-        <Animated.View style={this.getStyleSecondaryCard()} {...this._panResponder.panHandlers}>
-          <View style={styles.card}>
-            <Image source={{uri: "https://s-media-cache-ak0.pinimg.com/originals/0e/ca/cf/0ecacf1245c5e8c723414ea1a19407cf.jpg"}} style={styles.image}/>
-            <View style={{margin: 20}}>
-              <Text style={styles.titleText}>Name, Age</Text>
-              <Text style={styles.description}>{item.id}</Text>
-            </View>
-          </View>
-        </Animated.View>
-      )
-    }
   }
 
   componentWillMount() {
@@ -127,10 +98,10 @@ export default class SwipeCards extends Component {
         position: 'absolute'
       },
       {
-        transform: [{ translateX: pan.x }, { translateY: pan.y }, { rotate: this.state.pan.x.interpolate({inputRange: [-200, 0, 200], outputRange: ["-30deg", "0deg", "30deg"]}) }]
+        transform: [{ translateX: pan.x }, { translateY: pan.y }, { rotate: this.state.pan.x.interpolate({inputRange: [-150, 0, 150], outputRange: ["-30deg", "0deg", "30deg"]}) }]
       },
       {
-        opacity: this.state.pan.x.interpolate({inputRange: [-200, 0, 200], outputRange: [0.5, 1, 0.5]})
+        opacity: this.state.pan.x.interpolate({inputRange: [-150, 0, 150], outputRange: [0.5, 1, 0.5]})
       },
       {
         zIndex:100
@@ -148,16 +119,27 @@ export default class SwipeCards extends Component {
   }
 
   render() {
-    console.log(this.state.onScreenCards)
     return (
-      <FlatList
-        style={{flex: 1, borderColor: 'blue', borderWidth: 1}}
-        contentContainerStyle={{position: 'relative', alignItems: 'center', justifyContent: 'center', borderColor: 'red', borderWidth: 1}}
-        data={this.state.onScreenCards}
-        keyExtractor={(item) => item.id}
-        renderItem={({item}) => (this.renderCards(item))}
-        scrollEnabled={false}
-      />
+      <View>
+        <Animated.View style={this.getStyleSecondaryCard()} {...this._panResponder.panHandlers}>
+          <View style={styles.card}>
+            <Image source={{uri: "https://s-media-cache-ak0.pinimg.com/originals/0e/ca/cf/0ecacf1245c5e8c723414ea1a19407cf.jpg"}} style={styles.image}/>
+            <View style={{margin: 20}}>
+              <Text style={styles.titleText}>Name, Age</Text>
+              <Text style={styles.description}>{this.state.onScreenCards[1].text}</Text>
+            </View>
+          </View>
+        </Animated.View>
+        <Animated.View style={this.getStyleMainCard()} {...this._panResponder.panHandlers}>
+          <View style={styles.card}>
+            <Image source={{uri: "https://s-media-cache-ak0.pinimg.com/originals/0e/ca/cf/0ecacf1245c5e8c723414ea1a19407cf.jpg"}} style={styles.image}/>
+            <View style={{margin: 20}}>
+              <Text style={styles.titleText}>Name, Age</Text>
+              <Text style={styles.description}>{this.state.onScreenCards[0].text}</Text>
+            </View>
+          </View>
+        </Animated.View>
+      </View>
     );
   }
 }
