@@ -40,11 +40,13 @@ export default class Card extends Component {
             velocity: {x: -8, y: vy},
             deceleration: 0.98
           }).start()
+          this.props.onSwipe(this.props.index)
         } else if (this.state.pan.x._value > 150) {
           Animated.decay(this.state.pan, {
             velocity: {x: 8, y: vy},
             deceleration: 0.98
           }).start()
+          this.props.onSwipe(this.props.index)
         } else if (this.state.pan.y._value < -150) {
           Animated.decay(this.state.pan, {
             velocity: {x: vx, y: -9},
@@ -69,7 +71,8 @@ export default class Card extends Component {
     this.state.pan.y.removeAllListeners();
   }
 
-  getStyleMainCard() {
+  getStyleMainCard(index) {
+    console.log(this.props.index)
     // Destructure the value of pan from the state
     let { pan } = this.state;
 
@@ -85,32 +88,28 @@ export default class Card extends Component {
         top: -250
       },
       {
-        transform: [{ translateX: pan.x }, { translateY: pan.y }, { rotate: this.state.pan.x.interpolate({inputRange: [-150, 0, 150], outputRange: ["-30deg", "0deg", "30deg"]}) }]
+        transform: [{ translateX: pan.x }, { translateY: pan.y }, { rotate: this.state.pan.x.interpolate({inputRange: [-150, 0, 150], outputRange: ["-20deg", "0deg", "20deg"]}) }]
       },
       {
         opacity: this.state.pan.x.interpolate({inputRange: [-150, 0, 150], outputRange: [0.5, 1, 0.5]})
-      },
-      {
-        zIndex:100
       }
     ];
+    console.log(styles.mainCard)
   }
 
   render() {
     const { name, picture, email } = this.props;
 
     return (
-      <View>
-        <Animated.View style={this.getStyleMainCard()} {...this._panResponder.panHandlers}>
-          <View style={styles.card}>
-            <Image source={{uri: picture.large}} style={styles.image}/>
-            <View style={{margin: 20}}>
-              <Text style={styles.titleText}>{name.first} {name.last}</Text>
-              <Text style={styles.description}>Description</Text>
-            </View>
+      <Animated.View style={this.getStyleMainCard(this.props.index)} {...this._panResponder.panHandlers}>
+        <View style={styles.card}>
+          <Image source={{uri: picture.large}} style={styles.image}/>
+          <View style={{margin: 20}}>
+            <Text style={styles.titleText}>{name.first} {name.last}</Text>
+            <Text style={styles.description}>Description</Text>
           </View>
-        </Animated.View>
-      </View>
+        </View>
+      </Animated.View>
     );
   }
 }

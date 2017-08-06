@@ -5,7 +5,7 @@ import {
   Text,
   View
 } from 'react-native';
-import CardContainer from './CardContainer_New.js';
+import CardContainer from './CardContainer.js';
 
 export default class SwipeCards extends Component {
   render() {
