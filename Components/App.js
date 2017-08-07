@@ -5,25 +5,17 @@ import {
   Text,
   View
 } from 'react-native';
+import Styles from './Styles.js';
 import CardStack from './CardStack.js';
 
 export default class SwipeCards extends Component {
   render() {
     return (
-      <View style={styles.container}>
+      <View style={Styles.container}>
         <CardStack/>
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-});
 
 AppRegistry.registerComponent('SwipeCards', () => SwipeCards);

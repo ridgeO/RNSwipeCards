@@ -1,8 +1,7 @@
 import React from 'react';
-import { View, FlatList, Button, Dimensions } from 'react-native';
+import { View, FlatList, Button } from 'react-native';
+import Styles from './Styles.js';
 import Card from './Card.js';
-
-const DIMENSIONS = Dimensions.get('window');
 
 export default class CardStack extends React.Component {
   constructor(props) {
@@ -41,21 +40,20 @@ export default class CardStack extends React.Component {
   }
 
   render() {
-    console.log(this.state.people)
     return (
       <FlatList
-        style={{ flex: 1, width: DIMENSIONS.width }}
-        contentContainerStyle={{flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', borderColor: 'red', borderWidth: 1}}
-        data={this.state.people}
+        style={ Styles.cardContainer }
+        contentContainerStyle={ Styles.cardStack }
+        data={ this.state.people }
         renderItem={({ item, index }) => (
           <Card
-            {...item}
-            index={index}
-            onSwipe={this.handleRemove}
+            { ...item }
+            index={ index }
+            onSwipe={ this.handleRemove }
           />
         )}
-        keyExtractor={(item) => item.login.username}
-        scrollEnabled={false}
+        keyExtractor={ (item) => item.login.username }
+        scrollEnabled={ false }
       />
     );
   }
