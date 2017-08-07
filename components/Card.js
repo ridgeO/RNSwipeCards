@@ -52,11 +52,13 @@ export default class Card extends Component {
             velocity: {x: vx, y: -9},
             deceleration: 0.98
           }).start()
+          this.props.onSwipe(this.props.index)
         } else if (this.state.pan.y._value > 150) {
           Animated.decay(this.state.pan, {
             velocity: {x: vx, y: 9},
             deceleration: 0.98
           }).start()
+          this.props.onSwipe(this.props.index)
         } else {
           Animated.spring(this.state.pan, {
             toValue: 0,

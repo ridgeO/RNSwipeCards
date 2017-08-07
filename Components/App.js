@@ -5,13 +5,13 @@ import {
   Text,
   View
 } from 'react-native';
-import CardContainer from './CardContainer.js';
+import CardStack from './CardStack.js';
 
 export default class SwipeCards extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <CardContainer/>
+        <CardStack/>
       </View>
     );
   }
